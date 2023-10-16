@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     protected Long id;
 
     public Long getId() {

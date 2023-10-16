@@ -22,24 +22,23 @@ public class JobRepositoryTest extends RepositoryTest {
     Job job;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws InterruptedException {
         company = Company.builder()
             .name("원티드")
             .city("서울")
             .country("한국")
             .build();
         Company c1 = companyRepository.save(company);
+
+        Thread.sleep(100);
+
         job = Job.builder()
             .money(1000)
             .position("벡엔드 개발자")
             .description("채용급구")
+            .tech("java")
             .company(c1)
             .build();
-    }
-
-    @AfterEach
-    void tearDown() {
-        jobRepository.deleteAll();
     }
 
     @Test

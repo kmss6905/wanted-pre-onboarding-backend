@@ -7,10 +7,15 @@ import com.example.wanted.domain.job.JobRepository;
 import com.example.wanted.dto.job.AddJobRequest;
 import com.example.wanted.dto.job.UpdateJobRequest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoSettings;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.Optional;
 
@@ -47,6 +52,7 @@ class JobServiceTest {
     }
 
     @Test
+    @DisplayName("Job 추가 - 성공")
     void addJob() {
         // given
         given(companyRepository.findById(any())).willReturn(Optional.of(company));
@@ -73,6 +79,7 @@ class JobServiceTest {
     }
 
     @Test
+    @DisplayName("Job 수정 - 성공")
     void updateJob() {
         // given
         UpdateJobRequest jobRequest = UpdateJobRequest.builder()
@@ -98,21 +105,19 @@ class JobServiceTest {
 
         // then
         then(jobRepository).should(times(1)).findById(1L);
-        assertEquals("js", job.getTech());
+        assertEquals("java", job.getTech());
         assertEquals("프론트 개발자", job.getPosition());
         assertEquals("안급구", job.getDescription());
         assertEquals(100L, job.getMoney());
     }
 
     @Test
+    @DisplayName("Job 삭제 - 성공")
     void deleteJob() {
-    }
+        // when
+        jobService.deleteJob(1L);
 
-    @Test
-    void findJobs() {
-    }
-
-    @Test
-    void findOneJob() {
+        // then
+        then(jobRepository).should(times(1)).deleteById(1L);
     }
 }

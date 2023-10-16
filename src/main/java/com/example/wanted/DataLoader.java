@@ -11,8 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Component
+
 @Slf4j
+@Component
 @Transactional
 public class DataLoader implements CommandLineRunner {
     private final UserRepository userRepository;
@@ -38,7 +39,7 @@ public class DataLoader implements CommandLineRunner {
      * |  3   | 원티드코리아 | 한국 | 부산 |
      * |  4   |  카카오   | 한국 | 판교 |
      */
-    private void saveCompany() {
+    void saveCompany() {
         Company company1 = Company.builder()
             .name("원티드랩")
             .country("한국")
@@ -72,7 +73,7 @@ public class DataLoader implements CommandLineRunner {
      * |   1   | wanted |
      * |   2   |  june  |
      */
-    private void saveUsers() {
+    void saveUsers() {
         userRepository.saveAll(List.of(createUserWithName("wanted"), createUserWithName("june")));
     }
 

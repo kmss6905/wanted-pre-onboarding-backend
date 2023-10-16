@@ -1,11 +1,18 @@
 package com.example.wanted.dto.apply;
 
-import com.example.wanted.domain.job.JobApplication;
+import jakarta.validation.constraints.Min;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NonNull;
 
 @Getter
+@Builder
 public class ApplyJobRequest {
-    private long jobId;
-    private long userId;
+    @NonNull
+    @Min(value = 1L, message = "jobId value is 1")
+    private Long jobId;
 
+    @NonNull
+    @Min(value = 1L, message = "userId min value is 1")
+    private Long userId;
 }

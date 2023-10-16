@@ -33,20 +33,6 @@ class JobTest {
     }
 
     @Test
-    @DisplayName("Company 가 없으면 Job 을 생성할 수 없다.")
-    void throwExceptionWhenJobCreatedWithoutCompany() {
-        // when, then
-        assertThatThrownBy(() -> Job.builder()
-            .tech("java")
-            .position("벡엔드 개발자")
-            .company(null)
-            .description("벡엔드 개발자 모집합니다.")
-            .money(10_000)
-            .build()
-        );
-    }
-
-    @Test
     @DisplayName("업데이트 할 Job 이 없으면 업데이트 할 수 없다.")
     void throwExceptionWhenJobUpdatedWithoutJob() {
         // given

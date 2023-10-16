@@ -35,6 +35,7 @@ public class Job extends BaseEntity {
         this.description = description;
         this.tech = tech;
         this.company = company;
+        this.id = id;
     }
 
 //    private void validateCompanyNotNull(Company company) {
