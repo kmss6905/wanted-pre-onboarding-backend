@@ -1,5 +1,18 @@
 # wanted-pre-onboarding-backend
 
+## 개발환경
+
+* Java 17
+* Spring Boot 3.1
+* Gradle
+* Spring Boot 스타터 및 라이브러리들 (Spring Data JPA, Spring JDBC, Spring Validation, Spring Web 등)
+* Lombok (코드 단순화 및 간결화를 위한 라이브러리)
+* 테스트 프레임워크: JUnit 5 및 TestContainers
+* 데이터베이스: H2 (테스트용), MySQL 8 (실제 운영용)
+* Spring Boot DevTools (개발 중 자동 재시작)
+* Docker Compose (Docker 컨테이너 관리용 Spring Boot 플러그인)
+
+
 ## 요구사항 분석
 
 알아둘 것  
