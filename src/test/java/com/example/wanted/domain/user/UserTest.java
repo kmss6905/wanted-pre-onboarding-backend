@@ -8,17 +8,18 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
+@DisplayName("User 도메인 테스트")
 class UserTest {
+
 
     private static Stream<String> blankOrNullAndEmptyStrings() {
         return Stream.of(null, "", " ", "   ", "\t", "\n");
     }
 
     @Test
-    @DisplayName("Builder 를 이용하여 User 생성")
+    @DisplayName("Builder 를 이용하여 User 생성 - 성공")
     void createUserWithBuilder() {
         // when, then
         assertThatCode(() -> User.builder()
@@ -29,7 +30,7 @@ class UserTest {
     }
 
 
-    @DisplayName("name 이 Null, Blank, Empty 이면 User 객체 생성 실패")
+    @DisplayName("name 이 Null, Blank, Empty 이면 User 객체 생성 - 실패")
     @ParameterizedTest
     @MethodSource("blankOrNullAndEmptyStrings")
     void failNameIsNullBlankEmpty(String text) {
@@ -40,6 +41,5 @@ class UserTest {
             .build()
         ).isInstanceOf(UserNameNullException.class);
     }
-
 
 }

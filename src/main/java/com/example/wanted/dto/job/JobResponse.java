@@ -1,7 +1,9 @@
 package com.example.wanted.dto.job;
 
 import com.example.wanted.domain.job.Job;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -17,36 +19,42 @@ import java.util.List;
  *        },
  */
 @Builder
+@Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JobResponse {
     private long jobId;
     private String companyName;
     private String companyCountry;
-    private String companyNation;
+    private String companyCity;
     private String position;
     private long money;
     private String tech;
     private String description;
-    private List<Integer> anotherJobsId;
+    private List<Long> anotherJobsId;
 
     public static JobResponse of(final Job job) {
         return JobResponse.builder()
             .jobId(job.getId())
             .tech(job.getTech())
             .companyName(job.getCompany().getName())
-            .companyNation(job.getCompany().getCity())
+            .companyCountry(job.getCompany().getCountry())
+            .companyCity(job.getCompany().getCity())
+            .position(job.getPosition())
             .money(job.getMoney())
             .build();
     }
 
-    public static JobResponse ofWtihDesc(final Job job) {
+    public static JobResponse ofWithDescOtherJobIds(final Job job, final List<Long> ids) {
         return JobResponse.builder()
             .jobId(job.getId())
-            .companyNation(job.getCompany().getCity())
+            .companyCity(job.getCompany().getCity())
             .companyCountry(job.getCompany().getCountry())
             .companyName(job.getCompany().getName())
+            .money(job.getMoney())
             .tech(job.getTech())
             .position(job.getPosition())
             .description(job.getDescription())
+            .anotherJobsId(ids)
             .build();
     }
 }

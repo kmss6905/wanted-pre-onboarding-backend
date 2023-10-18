@@ -2,7 +2,8 @@ package com.example.wanted.domain.job;
 
 import com.example.wanted.domain.BaseEntity;
 import com.example.wanted.domain.company.Company;
-import com.example.wanted.exception.job.CompanyNullException;
+import com.example.wanted.domain.resume.Resume;
+import com.example.wanted.exception.job.InvalidJobContentException;
 import com.example.wanted.exception.job.UpdateJobNullException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -19,17 +20,25 @@ import java.util.Objects;
 @DynamicUpdate
 public class Job extends BaseEntity {
 
+    @Column(name = "position")
     private String position;
+
+    @Column(name = "money")
     private long money;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "tech")
     private String tech;
 
-    @ManyToOne
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "company_id")
     private Company company;
 
     @Builder
     private Job(final Long id, final String position, final long money, final String description, final String tech, final Company company) {
+        verifyNotBlank(position, description, tech);
         this.position = position;
         this.money = money;
         this.description = description;
@@ -38,11 +47,19 @@ public class Job extends BaseEntity {
         this.id = id;
     }
 
-//    private void validateCompanyNotNull(Company company) {
-//        if (Objects.isNull(company)) {
-//            throw new CompanyNullException();
-//        }
-//    }
+    private void verifyNotBlank(String position, String description, String tech) {
+        if (Objects.isNull(position) || position.isBlank()) {
+            throw new InvalidJobContentException();
+        }
+
+        if (Objects.isNull(description) || description.isBlank()) {
+            throw new InvalidJobContentException();
+        }
+
+        if (Objects.isNull(tech) || tech.isBlank()) {
+            throw new InvalidJobContentException();
+        }
+    }
 
     public void update(Job job) {
         validateJobNotNull(job);

@@ -15,36 +15,36 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 @DisplayName("Job Repository 테스트")
 public class JobRepositoryTest extends RepositoryTest {
 
-    @Autowired JobRepository jobRepository;
-    @Autowired CompanyRepository companyRepository;
+    @Autowired
+    JobRepository jobRepository;
+    @Autowired
+    CompanyRepository companyRepository;
 
     Company company;
-    Job job;
 
     @BeforeEach
-    void setUp() throws InterruptedException {
-        company = Company.builder()
+    void setUp() {
+        company = companyRepository.save(Company.builder()
+            .id(1L)
             .name("원티드")
             .city("서울")
             .country("한국")
-            .build();
-        Company c1 = companyRepository.save(company);
-
-        Thread.sleep(100);
-
-        job = Job.builder()
-            .money(1000)
-            .position("벡엔드 개발자")
-            .description("채용급구")
-            .tech("java")
-            .company(c1)
-            .build();
+            .build());
     }
 
     @Test
     @DisplayName("Job 을 저장한다. - 성공")
     void saveJob() {
         // when
+        Job job = Job.builder()
+            .id(1L)
+            .money(1000)
+            .position("벡엔드 개발자")
+            .description("채용급구")
+            .tech("java")
+            .company(company)
+            .build();
+
         Job save = jobRepository.save(job);
 
         // then
@@ -58,10 +58,17 @@ public class JobRepositoryTest extends RepositoryTest {
     @DisplayName("Job 을 조회한다. - 성공")
     void findJob() {
         // given
-        Job save = jobRepository.save(job);
+        Job job = jobRepository.save(Job.builder()
+            .id(1L)
+            .money(1000)
+            .position("벡엔드 개발자")
+            .description("채용급구")
+            .tech("java")
+            .company(company)
+            .build());
 
         // when
-        boolean present = jobRepository.findById(save.getId()).isPresent();
+        boolean present = jobRepository.findById(job.getId()).isPresent();
 
         // then
         assertThat(present).isTrue();
@@ -71,7 +78,14 @@ public class JobRepositoryTest extends RepositoryTest {
     @DisplayName("Job 을 업데이트 한다. - 성공")
     void updateJob() {
         // given
-        Job save = jobRepository.save(job);
+        Job save = jobRepository.saveAndFlush(Job.builder()
+            .id(1L)
+            .money(1000)
+            .position("벡엔드 개발자")
+            .description("채용급구")
+            .tech("java")
+            .company(company)
+            .build());
 
         // when
         Job updateJob = Job.builder()

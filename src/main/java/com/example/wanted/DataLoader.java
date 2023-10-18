@@ -4,6 +4,8 @@ import com.example.wanted.domain.company.Company;
 import com.example.wanted.domain.company.CompanyRepository;
 import com.example.wanted.domain.user.User;
 import com.example.wanted.domain.user.UserRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

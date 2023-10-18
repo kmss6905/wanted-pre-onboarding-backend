@@ -2,7 +2,7 @@ package com.example.wanted.domain.company;
 
 import com.example.wanted.exception.company.CompanyCountryNullException;
 import com.example.wanted.exception.company.CompanyNameNullException;
-import com.example.wanted.exception.company.CompanyNationNullException;
+import com.example.wanted.exception.company.CompanyCityNullException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 
+@DisplayName("Company 도메인 테스트")
 class CompanyTest {
 
     private static Stream<String> blankOrNullAndEmptyStrings() {
@@ -54,7 +55,7 @@ class CompanyTest {
             .country("한국")
             .city(text)
             .build()
-        ).isInstanceOf(CompanyNationNullException.class);
+        ).isInstanceOf(CompanyCityNullException.class);
     }
 
     @DisplayName("country 가 Null,Blank,Empty 이면 company 객체 생성 실패")

@@ -2,35 +2,41 @@ package com.example.wanted.dto.job;
 
 import com.example.wanted.domain.company.Company;
 import com.example.wanted.domain.job.Job;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
+import com.example.wanted.exception.job.CompanyNullException;
+import jakarta.validation.constraints.*;
+import lombok.*;
+
+import java.util.Objects;
 
 @Builder
+@AllArgsConstructor
 public class AddJobRequest {
 
-    @NotNull(message = "cant null")
-    @Min(value = 1, message = "Company ID must not be zero")
+    @NotNull
+    @Min(value = 1, message = "최소 {value} 이어야 합니다.")
     private Long companyId;
 
-    @NotNull(message = "cant null")
-    @Min(value = 10_000, message = "money value is must be least 10,000")
+    @NotNull
+    @Min(value = 10_000, message = "최소 {value} 이어야 합니다.")
+    @Max(value = 10_000_000, message = "최대 {value} 이어야 합니다.")
     private Long compensateMoneyValue;
 
-    @NotNull(message = "cant null")
-    @NotBlank(message = "position is can't not be blank")
+    @NotNull
+    @NotBlank
     private String position;
 
-    @NotNull(message = "cant null")
-    @NotBlank(message = "desc is can't not be blank")
+    @NotNull
+    @NotBlank
     private String desc;
 
-    @NotNull(message = "cant null")
-    @NotBlank(message = "tech is can't not be blank")
+    @NotNull
+    @NotBlank
     private String tech;
 
     public Job toJobWithCompany(Company company) {
+        if (Objects.isNull(company)) {
+            throw new CompanyNullException();
+        }
         return Job.builder()
             .company(company)
             .money(compensateMoneyValue)

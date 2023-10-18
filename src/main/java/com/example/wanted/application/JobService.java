@@ -7,8 +7,8 @@ import com.example.wanted.domain.job.JobRepository;
 import com.example.wanted.dto.job.AddJobRequest;
 import com.example.wanted.dto.job.JobResponse;
 import com.example.wanted.dto.job.UpdateJobRequest;
-import com.example.wanted.exception.company.NotFoundCompanyException;
-import com.example.wanted.exception.job.NotFoundJobException;
+import com.example.wanted.exception.company.CompanyNotFoundException;
+import com.example.wanted.exception.job.JobNotFoundException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +36,7 @@ public class JobService {
 
     private Company findCompany(AddJobRequest addJobRequest) {
         return companyRepository.findById(addJobRequest.getCompanyId())
-            .orElseThrow(NotFoundCompanyException::new);
+            .orElseThrow(CompanyNotFoundException::new);
     }
 
     @Transactional
@@ -47,23 +47,12 @@ public class JobService {
 
     private Job findJob(long jobId) {
         return jobRepository.findById(jobId)
-            .orElseThrow(NotFoundJobException::new);
+            .orElseThrow(JobNotFoundException::new);
     }
 
+    @Transactional
     public void deleteJob(long jobId) {
-        jobRepository.deleteById(jobId);
-    }
-
-    @Transactional(readOnly = true)
-    public List<JobResponse> findJobs(Pageable pageable) {
-        return jobRepository.findAll(pageable).stream()
-            .map(JobResponse::of)
-            .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public JobResponse findOneJob(long jobId) {
         Job job = findJob(jobId);
-        return JobResponse.ofWtihDesc(job);
+        jobRepository.delete(job);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.wanted.dto.apply;
+package com.example.wanted.dto.resume;
 
 import com.example.wanted.dto.ValidationTest;
 import jakarta.validation.ConstraintViolation;
@@ -9,12 +9,13 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 
-class ApplyJobRequestTest extends ValidationTest {
+@DisplayName("'지원서 제출' 요청 객체 테스트 ")
+class ResumeRequestTest extends ValidationTest {
 
     @Test
     @DisplayName("Builder 를 이용하여 ApplyJobRequest 생성하기")
     void builder() {
-        assertThatCode(() -> ApplyJobRequest.builder()
+        assertThatCode(() -> ResumeRequest.builder()
             .jobId(1L)
             .userId(1L)
             .build()
@@ -24,11 +25,11 @@ class ApplyJobRequestTest extends ValidationTest {
     @Test
     void testValidApplyJobRequest() {
         // when
-        ApplyJobRequest validRequest = ApplyJobRequest.builder()
+        ResumeRequest validRequest = ResumeRequest.builder()
             .jobId(1L)
             .userId(2L)
             .build();
-        Set<ConstraintViolation<ApplyJobRequest>> violations = validator.validate(validRequest);
+        Set<ConstraintViolation<ResumeRequest>> violations = validator.validate(validRequest);
 
         // then
         assertThat(violations.isEmpty()).isTrue();
@@ -38,30 +39,31 @@ class ApplyJobRequestTest extends ValidationTest {
     @DisplayName("JobId는 최소 1 이상이어야 합니다.")
     void testInvalidJobId() {
         // when
-        ApplyJobRequest invalidRequest = ApplyJobRequest.builder()
+        ResumeRequest invalidRequest = ResumeRequest.builder()
             .jobId(0L)
             .userId(2L)
             .build();
-        Set<ConstraintViolation<ApplyJobRequest>> violations = validator.validate(invalidRequest);
+        Set<ConstraintViolation<ResumeRequest>> violations = validator.validate(invalidRequest);
 
         // then
         assertThat(violations.size()).isEqualTo(1);
-        ConstraintViolation<ApplyJobRequest> violation = violations.iterator().next();
-        assertThat(violation.getMessage()).isEqualTo("jobId value is 1");
+        ConstraintViolation<ResumeRequest> violation = violations.iterator().next();
+        assertThat(violation.getMessage()).isEqualTo("최소 1 이어야 합니다.");
     }
 
     @Test
+    @DisplayName("userId 는 최소 1 이상이어야 합니다.")
     void testInvalidUserId() {
         // when
-        ApplyJobRequest invalidRequest = ApplyJobRequest.builder()
+        ResumeRequest invalidRequest = ResumeRequest.builder()
             .jobId(1L)
             .userId(0L)
             .build();
-        Set<ConstraintViolation<ApplyJobRequest>> violations = validator.validate(invalidRequest);
+        Set<ConstraintViolation<ResumeRequest>> violations = validator.validate(invalidRequest);
 
         // then
         assertThat(violations.size()).isEqualTo(1);
-        ConstraintViolation<ApplyJobRequest> violation = violations.iterator().next();
-        assertThat(violation.getMessage()).isEqualTo("userId min value is 1");
+        ConstraintViolation<ResumeRequest> violation = violations.iterator().next();
+        assertThat(violation.getMessage()).isEqualTo("최소 1 이어야 합니다.");
     }
 }
